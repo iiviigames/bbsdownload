@@ -107,7 +107,7 @@
         cartDownload(cart_name, cart_download_link);
 
         return;
-    } else { count+=1; return; }
+    } else { count=2; return; }
 
 })();
 
