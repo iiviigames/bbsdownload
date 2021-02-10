@@ -1,7 +1,7 @@
 The Pico-8 BBS Download Link-inator!
 =====================================
 
-:thoughtful:
+:sleepy:
 
 <details>
   <summary>Are you sick of tedious right-click, save-as routines?</summary>
