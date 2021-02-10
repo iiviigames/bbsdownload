@@ -1,65 +1,73 @@
 // ==UserScript==
 // @name         Pico-8 Download Cart
 // @namespace    https://github.com/iiviigames/bbsdownload
-// @version      0.2
+// @version      0.3
+// @include      https://www.lexaloffle.com/bbs/*
+// @author       iivii | iiviigames@pm.me | @odd_codes
+// @contact      https://github.com/iiviigames | https://odd.codes
 // @description  Adds an auto-downloading link on BBS cartridge pages. Eliminates the need to 'Right Click; Save As' so frequently!
-// @author       iivii | https://odd.codes
-// @include      https://www.lexaloffle.com/*
+//               Optionally, this does make use of the PICO-8 font, and it has a little extra aesthetic appeal if you have it installed.
 // ==/UserScript==
 
 // ========================================================
 //                        MAIN LOOP
 // ========================================================
-
-
+var start = true;
+var count = 0;
+if (document.location.search[0] == '?' && start){main();}
 // Automatically runs when on a BBS page.
-(function() {
+function main() {
 
-    // This container loop is an ugly attempt to force the code to run a single time.
-    // It does not work well, or possibly at all.
-    var count = 1;
-    if (count == 1) {
+  // This container loop is an ugly attempt to force the code to run a single time.
+  // It does not work well, or possibly at all.
+	count++;
+	if (count>1) {return;}
 
-        console.log("Reading the PICO-8 News...");
-        // Checks that page title is 'BBS'
-        //var page = window.location.pathname.split('/')[1];
-        //if (page == "BBS") {
+  //if (count == 1) {
+
+		//console.log("Reading the PICO-8 News...");
+		// newGetCart();
+
+		// Checks that page title is 'BBS'
+		//var page = window.location.pathname.split('/')[1];
+		//if (page == "BBS") {
 
 
-        // Call the function to store the cart number.
-        var cart_number_hash = getCartNum();
-        var cart_name = cart_number_hash.substring(1, cart_number_hash.length);
+		// Call the function to store the cart number.
+		var cart_number_hash = getCartNum();
+		if (cart_number_hash == false) {return;}
+		var cart_name = cart_number_hash.substring(1, cart_number_hash.length);
 
-        // Output for debugs.
-        // console.log(cart_number_hash);
-        // console.log(cart_name);
+		// Output for debugs.
+		// console.log(cart_number_hash);
+		// console.log(cart_name);
 
-        // The target links for the cart/
-        var link_front = "https://www.lexaloffle.com/bbs/cposts/";
-        var link_end = ".p8.png";
+		// The target links for the cart/
+		var link_front = "https://www.lexaloffle.com/bbs/cposts/";
+		var link_end = ".p8.png";
 
-        // If the first char in the string is a number, get the first number from the string.
-        // If the first char in the string is a letter, get the first 2 chars in the string.
-        // Create the variables needed to check these conditions.
-        var cart_chars, isnum;
-        var first_char = cart_name[0];
-        var nums = ['0','1','2','3','4','5','6','7','8','9'];
+		// If the first char in the string is a number, get the first number from the string.
+		// If the first char in the string is a letter, get the first 2 chars in the string.
+		// Create the variables needed to check these conditions.
+		var cart_chars, isnum;
+		var first_char = cart_name[0];
+		var nums = ['0','1','2','3','4','5','6','7','8','9'];
 
-        // Debug to see that the correct char is being read.
-        // console.log(first_char);
+		// Debug to see that the correct char is being read.
+		// console.log(first_char);
 
-        // Loop through the list of numerals to find out if the first char is a number.
-        for (var i = 0; i < nums.length; i++) {
-            if (first_char == nums[i]) {
-                isnum = true;
-                // Debug to make sure the loop is running.
-                // console.log("The first char is a number!");
-                break;
-            } else { isnum = false; }
-        }
+		// Loop through the list of numerals to find out if the first char is a number.
+		for (var i = 0; i < nums.length; i++) {
+			if (first_char == nums[i]) {
+				isnum = true;
+				// Debug to make sure the loop is running.
+				// console.log("The first char is a number!");
+				break;
+			} else { isnum = false; }
+		}
 
-        // Explanation for the particular nature of these URLs, and this strange loop.
-        /* With the newest major update to the BBS, Lexaloffle gave users the ability to
+		// Explanation for the particular nature of these URLs, and this strange loop.
+		/* With the newest major update to the BBS, Lexaloffle gave users the ability to
         give the carts that they publish custom names. These serve as the cart's ID, which
         always must be a unique value. Prior to thsese changes, carts were all just given
         a numerical id. This new flexibility likely called for a change in some part of the
@@ -95,95 +103,237 @@
         - Destination URL contains THE FIRST TWO LETTERS OF THE CART'S ID!
 
         */
-        cart_chars = isnum == false ? cart_name[0] + cart_name[1] : cart_name[0];
+		cart_chars = isnum == false ? cart_name[0] + cart_name[1] : cart_name[0];
 
-        // Combine the properly obtained characters with the rest of the link text.
-        var link_mid = cart_chars + "/" + cart_name;
+		// Combine the properly obtained characters with the rest of the link text.
+		var link_mid = cart_chars + "/" + cart_name;
 
-        // Combine all 3 to make the link.
-        var cart_download_link = link_front + link_mid + link_end;
+		// Combine all 3 to make the link.
+		var cart_download_link = link_front + link_mid + link_end;
 
-        // Create the Download Link!
-        cartDownload(cart_name, cart_download_link);
+		// Create the Download Link!
+		cartDownload(cart_name, cart_download_link);
 
-        return;
-    } else { count=2; return; }
+		// New Get Cart Test
+		// newGetCart();
+		start = false;
+		return;
+  //} else { return false; count=2; return; }
 
-})();
+}//)();
 
 
 // ========================================================
 //                      FUNCTIONS
 // ========================================================
 
+// ----------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+function newGetCart() {
+  // String used to find the cart ID's
+  var _target = "Cart #";
+  // These will hold the start and end positions for each of the cart names
+  var _fdex = [];
+  var _rdex = [];
+
+  // The large text that needs parsing
+  // var _cartcontext = document.getElementById("main_div").innerText;
+
+
+  // console.log(_cartcontext.count(_target));
+  // console.log(_cartcontext);
+
+  // Seek out the carts
+}
+// ----------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+
+// Gets the cart's source
+function getCartSource(cname){
+	/*
+	let prefix = 'cartsrc_';
+	let sourcediv = prefix + cname;
+	let source = document.querySelector('#'+sourcediv);
+	let src = document.querySelector('#output');
+	let code = src.innerText;
+
+	request.open('GET', url);
+	request.responseType = 'text';
+	request.onload = function() {
+		poemDisplay.textContent = request.response;
+	};
+  let request = new XMLHttpRequest();
+	*/
+	// var ret;
+	// var srcname = 'cartsrc_'+cname;
+	// var codelink = document.querySelector("iframe");
+	// var phplink = codelink.src;
+	return document.querySelector('iframe').contentDocument.activeElement.innerText
+
+}
+
+
+// Creates the cart download link just beneath the cart window.
+function sourceDownload(cart_name, source){
+
+	// var textFile = null
+
+	var makeTextFile = function (cname, text) {
+		var data = new Blob([text],{type: 'text/plain'});
+		// saveAs(data, cname+".lua");
+
+		// If we are replacing a previously generated file we need to
+		// manually revoke the object URL to avoid memory leaks.
+		// if (textFile !== null) {
+		// 	window.URL.revokeObjectURL(textFile);
+		// }
+
+		// textFile = window.URL.createObjectURL(data);
+
+		// return textFile;
+		return data;
+ };
+  // Here, a new element is dynamically added to the BBS page. It's all very
+  // self-explanatory, as the functions themselves have a intuitive nomenclature.
+  var src_end = ".lua";
+	makeTextFile(cart_name, source);
+  // Prepare a new link element.
+  var newSrc = document.createElement('button');
+  // Hyperlink text to be used.
+  var srcText = document.createTextNode('download source!');
+  // Add the text to the initialized link.
+  newSrc.appendChild(srcText);
+
+  // Set each attribute that we need to make it functional and pretty.
+  // This is the link we went through all the trouble to generate ourselves!
+  newSrc.setAttribute('href',cart_download_link);
+
+  // This attribute in particular is what gives us the auto-download functionality that I was
+  // after when I started this script. I was sick of click on the cart image, going to the
+  // next page, and right-click save as. It's obnoxious! This fixes it, but still leaves the
+  // normal functionality!
+  newSrc.setAttribute('download',cart_name+link_end);
+
+  // Styling the text itself.
+  newSrc.setAttribute('style','color:#FF77A8;font-style:bold;font-size:24;content-align:center;font-family: "PICO-8", "Fira Code", monospace;');
+
+  // This is why we needed the cart's name separately. The BBS dynamically names elements
+  // within every cart page with PHP, and thus they are never the same. This made the work
+  // much harder as it uses the unique ID to name MANY, MANY parts of the css and html
+  // elements needed to make any of this function.
+  var append_at = getPlayWindow();
+	// var append_at = document.getElementById('cart_player_'+cart_name);
+
+
+  // Finally, add the motherfuckin' link to the page!
+  // It's even in the PICO-8 font as long you've got it installed!
+  append_at.parentNode.parentNode.appendChild(newSrc);
+	return;
+
+
+
+	//var create = document.getElementById('create'),
+	//textbox = document.getElementById('textbox');
+
+// 	create.addEventListener('click', function () {
+// 		var link = document.getElementById('downloadlink');
+// 		link.href = makeTextFile();
+// 		link.style.display = 'block';
+// }, false);
+}
+
 // Grab the cart ID (and ONLY the ID) from an HTML element.
 function getCartNum(){
 
-    // The goal here is to get the ID of the cartridge itself from the HTML itself...
-    /*To accomplish this, the string.substring() method will be used. This means
+  // The goal here is to get the ID of the cartridge itself from the HTML itself...
+  /*To accomplish this, the string.substring() method will be used. This means
     that a starting and ending index for the are necessary to pull it from the
     other text. I'm sure there's a better way to do this, but for now, it was the
     solution I came up with, and I explain how I did it below.*/
 
-    // The div element containing the iframe where the cart is played or run normally
-    // is the target, as it contains the ID we need. We store the text inside of a
-    // variable now to parse out what we need from it later.
-    var cart_context = document.getElementById("main_div").innerText;
+  // The div element containing the iframe where the cart is played or run normally
+  // is the target, as it contains the ID we need. We store the text inside of a
+  // variable now to parse out what we need from it later.
+	var div = document.getElementById("main_div");
+	if (div.innerText == null) {return;}
 
-    // The cart ID is always preceeded by a pound '#' sign. This symbol is also the first of
-    // its type contained within the innerHTML of the target div. This means that the '#' sign's
-    // numerical position in the text is where we need to start for an index search that will
-    // allow us to ONLY get the cart ID out of all the other crap in there with it.
-    // Index 1 get-o!
-    var cart_num_index_start = cart_context.indexOf("#");
+	var cart_context = div.innerText;
+	// if (cart_context == null) {return false;}
+  // var cart_context = document.getElementById("main_div").innerText;
 
-    // You'd think it would be difficult to know what the first character following the
-    // cart's ID would be in EVERY case, but immediately after every cart ID is this: ` |`.
-    // The '|', IS ALWAYS THERE, preceeeded by a space character. So, if we subtract 1 from
-    // the value that the indexOf method returns, for the '|' to account for that space as well,
-    // we end up with the 2nd index we need for the substring method to work!
-    var cart_num_index_end = cart_context.indexOf("|") - 1;
+  // The cart ID is always preceeded by a pound '#' sign. This symbol is also the first of
+  // its type contained within the innerHTML of the target div. This means that the '#' sign's
+  // numerical position in the text is where we need to start for an index search that will
+  // allow us to ONLY get the cart ID out of all the other crap in there with it.
+  // Index 1 get-o!
+  var cart_num_index_start = cart_context.indexOf("#");
 
-    // Now, we use the substring method to pull only the text contained within these two
-    // indexes - what we're left with is the cart's ID!
-    var cart_number = cart_context.substring(cart_num_index_start, cart_num_index_end);
-    return cart_number;
+  // You'd think it would be difficult to know what the first character following the
+  // cart's ID would be in EVERY case, but immediately after every cart ID is this: ` |`.
+  // The '|', IS ALWAYS THERE, preceeeded by a space character. So, if we subtract 1 from
+  // the value that the indexOf method returns, for the '|' to account for that space as well,
+  // we end up with the 2nd index we need for the substring method to work!
+  var cart_num_index_end = cart_context.indexOf("|") - 1;
+
+  // Now, we use the substring method to pull only the text contained within these two
+  // indexes - what we're left with is the cart's ID!
+  var cart_number = cart_context.substring(cart_num_index_start, cart_num_index_end);
+  return cart_number;
 
 }
+
+
+// Locates the unique cart player window div.
+function getPlayWindow(){
+	var num = getCartNum();
+	var name = num.substring(1, num.length);
+	var loc = "cart_player_" + name;
+	var player = document.getElementById(loc);
+	// console.log(player);
+	return player;
+}
+
 
 // Creates the cart download link just beneath the cart window.
 function cartDownload(cart_name, cart_download_link){
 
-    // Here, a new element is dynamically added to the BBS page. It's all very
-    // self-explanatory, as the functions themselves have a intuitive nomenclature.
-    var link_end = ".p8.png";
-    // Prepare a new link element.
-    var newLink = document.createElement('a');
-    // Hyperlink text to be used.
-    var linkText = document.createTextNode('Download Cart!');
-    // Add the text to the initialized link.
-    newLink.appendChild(linkText);
+  // Here, a new element is dynamically added to the BBS page. It's all very
+  // self-explanatory, as the functions themselves have a intuitive nomenclature.
+  var link_end = ".p8.png";
+  // Prepare a new link element.
+  var newLink = document.createElement('a');
+  // Hyperlink text to be used.
+  var linkText = document.createTextNode('download cart!');
+  // Add the text to the initialized link.
+  newLink.appendChild(linkText);
 
-    // Set each attribute that we need to make it functional and pretty.
-    // This is the link we went through all the trouble to generate ourselves!
-    newLink.setAttribute('href',cart_download_link);
+  // Set each attribute that we need to make it functional and pretty.
+  // This is the link we went through all the trouble to generate ourselves!
+  newLink.setAttribute('href',cart_download_link);
 
-    // This attribute in particular is what gives us the auto-download functionality that I was
-    // after when I started this script. I was sick of click on the cart image, going to the
-    // next page, and right-click save as. It's obnoxious! This fixes it, but still leaves the
-    // normal functionality!
-    newLink.setAttribute('download',cart_name+link_end);
+  // This attribute in particular is what gives us the auto-download functionality that I was
+  // after when I started this script. I was sick of click on the cart image, going to the
+  // next page, and right-click save as. It's obnoxious! This fixes it, but still leaves the
+  // normal functionality!
+  newLink.setAttribute('download',cart_name+link_end);
 
-    // Styling the text itself.
-    newLink.setAttribute('style','color:#0ab7fc;font-style:bold;font-size:24;content-align:center;font-family: "PICO-8", "Fira Code", monospace;');
+  // Styling the text itself.
+  newLink.setAttribute('style','color:#0ab7fc;font-style:bold;font-size:24;content-align:center;font-family: "PICO-8", "Fira Code", monospace;');
 
-    // This is why we needed the cart's name separately. The BBS dynamically names elements
-    // within every cart page with PHP, and thus they are never the same. This made the work
-    // much harder as it uses the unique ID to name MANY, MANY parts of the css and html
-    // elements needed to make any of this function.
-    var append_at = document.getElementById('cart_player_'+cart_name);
+  // This is why we needed the cart's name separately. The BBS dynamically names elements
+  // within every cart page with PHP, and thus they are never the same. This made the work
+  // much harder as it uses the unique ID to name MANY, MANY parts of the css and html
+  // elements needed to make any of this function.
+  var append_at = getPlayWindow();
+	// var append_at = document.getElementById('cart_player_'+cart_name);
 
-    // Finally, add the motherfuckin' link to the page!
-    // It's even in the PICO-8 font as long you've got it installed!
-    append_at.parentNode.parentNode.appendChild(newLink);
+
+  // Finally, add the motherfuckin' link to the page!
+  // It's even in the PICO-8 font as long you've got it installed!
+  append_at.parentNode.parentNode.appendChild(newLink);
+	return;
 }
+//================================================================
