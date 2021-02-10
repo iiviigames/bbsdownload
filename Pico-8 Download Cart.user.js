@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Pico-8 Download Cart
 // @namespace    https://github.com/iiviigames/bbsdownload
-// @version      0.3
+// @version      0.4
 // @include      https://www.lexaloffle.com/bbs/*
 // @author       iivii | iiviigames@pm.me | @odd_codes
 // @contact      https://github.com/iiviigames | https://odd.codes
-// @description  Adds an auto-downloading link on BBS cartridge pages. Eliminates the need to 'Right Click; Save As' so frequently!
-//               Optionally, this does make use of the PICO-8 font, and it has a little extra aesthetic appeal if you have it installed.
+// @description  Adds an auto-downloading link on BBS cartridge pages.
+//	Eliminates the need to 'Right Click; Save As' so frequently!
+//  Optionally, this does make use of the PICO-8 font, and it has a little extra aesthetic appeal if you have it installed.
 // ==/UserScript==
 
 // ========================================================
@@ -114,65 +115,20 @@ function main() {
 		// Create the Download Link!
 		cartDownload(cart_name, cart_download_link);
 
-		// New Get Cart Test
-		// newGetCart();
 		start = false;
 		return;
-  //} else { return false; count=2; return; }
-
-}//)();
+}
 
 
 // ========================================================
 //                      FUNCTIONS
 // ========================================================
 
-// ----------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------
-function newGetCart() {
-  // String used to find the cart ID's
-  var _target = "Cart #";
-  // These will hold the start and end positions for each of the cart names
-  var _fdex = [];
-  var _rdex = [];
 
-  // The large text that needs parsing
-  // var _cartcontext = document.getElementById("main_div").innerText;
-
-
-  // console.log(_cartcontext.count(_target));
-  // console.log(_cartcontext);
-
-  // Seek out the carts
-}
-// ----------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------------
 
 // Gets the cart's source
 function getCartSource(cname){
-	/*
-	let prefix = 'cartsrc_';
-	let sourcediv = prefix + cname;
-	let source = document.querySelector('#'+sourcediv);
-	let src = document.querySelector('#output');
-	let code = src.innerText;
-
-	request.open('GET', url);
-	request.responseType = 'text';
-	request.onload = function() {
-		poemDisplay.textContent = request.response;
-	};
-  let request = new XMLHttpRequest();
-	*/
-	// var ret;
-	// var srcname = 'cartsrc_'+cname;
-	// var codelink = document.querySelector("iframe");
-	// var phplink = codelink.src;
 	return document.querySelector('iframe').contentDocument.activeElement.innerText
-
 }
 
 
@@ -183,17 +139,6 @@ function sourceDownload(cart_name, source){
 
 	var makeTextFile = function (cname, text) {
 		var data = new Blob([text],{type: 'text/plain'});
-		// saveAs(data, cname+".lua");
-
-		// If we are replacing a previously generated file we need to
-		// manually revoke the object URL to avoid memory leaks.
-		// if (textFile !== null) {
-		// 	window.URL.revokeObjectURL(textFile);
-		// }
-
-		// textFile = window.URL.createObjectURL(data);
-
-		// return textFile;
 		return data;
  };
   // Here, a new element is dynamically added to the BBS page. It's all very
@@ -232,17 +177,6 @@ function sourceDownload(cart_name, source){
   // It's even in the PICO-8 font as long you've got it installed!
   append_at.parentNode.parentNode.appendChild(newSrc);
 	return;
-
-
-
-	//var create = document.getElementById('create'),
-	//textbox = document.getElementById('textbox');
-
-// 	create.addEventListener('click', function () {
-// 		var link = document.getElementById('downloadlink');
-// 		link.href = makeTextFile();
-// 		link.style.display = 'block';
-// }, false);
 }
 
 // Grab the cart ID (and ONLY the ID) from an HTML element.
@@ -261,8 +195,6 @@ function getCartNum(){
 	if (div.innerText == null) {return;}
 
 	var cart_context = div.innerText;
-	// if (cart_context == null) {return false;}
-  // var cart_context = document.getElementById("main_div").innerText;
 
   // The cart ID is always preceeded by a pound '#' sign. This symbol is also the first of
   // its type contained within the innerHTML of the target div. This means that the '#' sign's
