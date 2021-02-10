@@ -1,7 +1,26 @@
 The Pico-8 BBS Download Link-inator!
 =====================================
 
-This is a JS Userscript that adds a nice, big download link right under the cart player on the Pico-8 Bulletin Board System. Does literally what it says on the tin.
+:thoughtful:
+
+<details>
+  <summary>Are you sick of tedious right-click, save-as routines?</summary>
+  <p><blockquote>Well, <b>now they're a thing of the past!</b></blockquote></p>
+</details>
+
+
+<div align="normal">
+  <img src="https://raw.githubusercontent.com/iiviigames/bbsdownload/master/img/cartDL.gif"
+       alt="BBS Download Link"
+       title="Usage of BBSDownload"
+       width="452px"
+  />
+</div>
+
+
+## A Little Less Tedious
+
+This is a userscript written in `.js`, that adds a nice, big download link right under the cart player on the Pico-8 Bulletin Board System. Does literally what it says on the tin.
 
 To use this, you need something like [TamperMonkey](https://www.tampermonkey.net/) installed in your browser. (I'm using Firefox Developer ATM.)
 
