@@ -133,7 +133,7 @@ function main() {
     // We need to log it out to the console
 
     var cart_source_url = makeCartSourceURL(cart_name);
-    var cart_source_id =  cartSourceById (cart_name);
+    var cart_source_id = cartSourceById (cart_name);
     // Log these
     console.log(`Cart Source URL: https://lexaloffle.com/${cart_source_url}`);
     console.log(`Cart Source ID: ${cart_source_id}`);
@@ -143,9 +143,12 @@ function main() {
 
     // Not Woekoing.
     // Need print_pico8_cart_code?
-    var cart_source_test = cartSourceLog(cart_name, cart_downnload_link);
-    console.log(`Cart Source ID: ${cart_source_test}`);
-
+    // var cart_source_test = cartSourceLog(cart_name, cart_downnload_link);
+    // console.log(`Cart Source ID: ${cart_source_test}`);
+    // Module.onRuntimeInitialized = _V_ => {
+    //     const print_pico8_code = Module.cwrap('print_pico8_code', 'number', ['string','string']);
+    //     print_pico8_code("/bbs/cposts/va/vacayvolley_1_0-1.p8.png","output");
+    // };
     start = false;
     return;
 }
@@ -194,7 +197,7 @@ function sourceDownload(cart_name, source){
   newSrc.setAttribute('download',cart_name+link_end);
 
   // Styling the text itself.
-  newSrc.setAttribute('style','color:#FF77A8;font-style:bold;font-size:24;content-align:center;font-family: "PICO-8", "Fira Code", monospace;');
+  newSrc.setAttribute('style','color:#FF77A8;font-style:bold;font-size:24;content-align:center;font-family: "PICO-8 mono;');
 
   // This is why we needed the cart's name separately. The BBS dynamically names elements
   // within every cart page with PHP, and thus they are never the same. This made the work
@@ -219,10 +222,10 @@ function getCartNum(){
     other text. I'm sure there's a better way to do this, but for now, it was the
     solution I came up with, and I explain how I did it below.*/
 
-  // The div element containing the iframe where the cart is played or run normally
-  // is the target, as it contains the ID we need. We store the text inside of a
-  // variable now to parse out what we need from it later.
-	var div = document.getElementById("main_div");
+    // The div element containing the iframe where the cart is played or run normally
+    // is the target, as it contains the ID we need. We store the text inside of a
+    // variable now to parse out what we need from it later.
+    var div = document.getElementById("main_div");
 	if (div.innerText == null) {return;}
 
 	var cart_context = div.innerText;
@@ -284,7 +287,7 @@ function cartDownload(cart_name, cart_download_link){
   newLink.setAttribute('download',cart_name+link_end);
 
   // Styling the text itself.
-  newLink.setAttribute('style','color:#0ab7fc;font-style:bold;font-size:24;content-align:center;font-family: "PICO-8", "Fira Code", monospace;');
+  newLink.setAttribute('style','color:#0ab7fc;font-style:bold;font-size:24;content-align:center;font-family: "PICO-8 mono", "PICO-8 mono upper", "Pico", "Pico-8;');
 
   // This is why we needed the cart's name separately. The BBS dynamically names elements
   // within every cart page with PHP, and thus they are never the same. This made the work
@@ -335,21 +338,21 @@ function cartSourceLog(cart_name, cart_download_link) {
     if (el.style.display == "none"){
         el.style.display = "";
         // print_cart_code("https://www.lexaloffle.com/bbs/cposts/va/vacayvolley_1_0-1.p8.png", "cartsrc_vacayvolley_1_0-1");
-        print_cart_code(cart_download_link, cart_source_id);
+        // print_cart_code(cart_download_link, cart_source_id);
     } else {
         el.style.display = "none";
-        microAjax(
-            makeCartSourceURL(cart_name),
-            function(retdata) {
-                var cart_source_div = document.getElementById(cart_source_id);
-                var csd = cart_source_div;
-                // This is what the microAjax request gets, I think.
-                csd.innerHTML = retdata;
-                var cart_source_text = csd.innerText;
-                console.log(cart_source_text);
-                return cart_source_text;
-            }
-        )
+    //     microAjax(
+    //         makeCartSourceURL(cart_name),
+    //         function(retdata) {
+    //             var cart_source_div = document.getElementById(cart_source_id);
+    //             var csd = cart_source_div;
+    //             // This is what the microAjax request gets, I think.
+    //             csd.innerHTML = retdata;
+    //             var cart_source_text = csd.innerText;
+    //             console.log(cart_source_text);
+    //             return cart_source_text;
+    //         }
+    //     )
     }
 
 
