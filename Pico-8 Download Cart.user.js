@@ -56,7 +56,10 @@ function main() {
 
     // The target links for the cart/
     var link_front = "https://www.lexaloffle.com/bbs/cposts/";
-    var link_end = ".p8.png";
+    // var link_end = ".p8.png";
+    var link_end = findCartStorageChars();
+    // DEBUG: show link end result
+    console.log(link_end);
 
     // If the first char in the string is a number, get the first number from the string.
     // If the first char in the string is a letter, get the first 2 chars in the string.
