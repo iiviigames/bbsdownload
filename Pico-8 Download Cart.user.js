@@ -24,6 +24,7 @@ var debug = true;
 
 if (document.location.search[0] == '?' && start){main();}
 else if(document.location.search[0]=='?' && start && debug){dbgmain();}
+//else {dbgmain();}
 // Automatically runs when on a BBS page.
 function main() {
 
@@ -42,132 +43,132 @@ function main() {
     if (page == "BBS") {
   */
 
-    // Call the function to store the cart number.
-    var cart_number_hash = getCartNum();
-    if (cart_number_hash == false) {return;}
-    var cart_name = cart_number_hash.substring(1, cart_number_hash.length);
+  // Call the function to store the cart number.
+  var cart_number_hash = getCartNum();
+  if (cart_number_hash == false) {return;}
+  var cart_name = cart_number_hash.substring(1, cart_number_hash.length);
 
-    // Output for debugs.
-    // console.log(cart_number_hash);
-    // console.log(cart_name);
-
-
-
-
-    // The target links for the cart/
-    var link_front = "https://www.lexaloffle.com/bbs/cposts/";
-    // var link_end = ".p8.png";
-    var link_end = findCartStorageChars();
-    // DEBUG: show link end result
-    console.log(link_end);
-
-    // If the first char in the string is a number, get the first number from the string.
-    // If the first char in the string is a letter, get the first 2 chars in the string.
-    // Create the variables needed to check these conditions.
-    var cart_chars, isnum;
-    var first_char = cart_name[0];
-    var nums = ['0','1','2','3','4','5','6','7','8','9'];
-
-    // Debug to see that the correct char is being read.
-    // console.log(first_char);
-
-    // Loop through the list of numerals to find out if the first char is a number.
-    for (var i = 0; i < nums.length; i++) {
-        if (first_char == nums[i]) {
-            isnum = true;
-            // Debug to make sure the loop is running.
-            // console.log("The first char is a number!");
-            break;
-        } else { isnum = false; }
-    }
-
-    // Explanation for the particular nature of these URLs, and this strange loop.
-
-    /* Explanation for the particular nature of these URLs, and this strange loop.
-      With the newest major update to the BBS, Lexaloffle gave users the ability to
-      give the carts that they publish custom names. These serve as the cart's ID, which
-      always must be a unique value. Prior to thsese changes, carts were all just given
-      a numerical id. This new flexibility likely called for a change in some part of the
-      BBS's backend, which used to subdivide carts by the first number in their ID, and
-      only incremented when all the ID's in that range had been exhausted. Since carts are
-      now able to contain alphabetical characters, this made the process more involoved.
-
-      Below this are 2 examples of cartridge links, the first being an older cart that had
-      an assigned number for its ID, and the second being a user-chosen ID containing both
-      alphabetical and numeric characters:
-
-      https://www.lexaloffle.com/...
-      .../bbs/cposts/3/34135.p8.png                          (OLD CART)
-      .../bbs/cposts/sp/spaz48_vvvvvvmoonfall_08-0.p8.png    (NEW CART)
-
-
-      See the url segment immediately following 'cposts'? Notice the numerical old cart
-      has a single character serving as a folder name in which the cart is stored;
-      in this case a '3'.
-
-      In opposition to this, the cart with a custom name is contained within a folder which
-      has 2 characters as a title; in this case, 'sp'.
-
-      Thus, depending on whether the cart has been given a custom identifier or not will
-      alter the storage destintation of the resulting p8.png file. Althought I'm not
-      certain if a cart with a custom name beginning with a numerical value would alter
-      the rules I've made, I think this code would cover it either way. Here's how it goes:
-
-      1.) Cart has no Custom Name/ID:
-      - Destination URL contains THE FIRST VALUE IN THE NUMERICAL ID!
-
-      2.) Cart has a Custom Name/ID:
-      - Destination URL contains THE FIRST TWO LETTERS OF THE CART'S ID!
-    */
-
-
-    cart_chars = isnum == false ? cart_name[0] + cart_name[1] : cart_name[0];
-
-    // Combine the properly obtained characters with the rest of the link text.
-    var link_mid = cart_chars + "/" + cart_name;
-
-    // Combine all 3 to make the link.
-    var cart_download_link = link_front + link_mid + link_end;
-
-    // Create the Download Link!
-    cartDownload(cart_name, cart_download_link);
+  // Output for debugs.
+  // console.log(cart_number_hash);
+  // console.log(cart_name);
 
 
 
-    // Getting Cart source infiormation tests.
-    // Uses the microAjax function.
-    // ie:
-    // microAjax(cart_source_url, function(retdata) {var el = document.getElementById("cartsrc_" + cart_name); el.innerHTML = retdata;             OR...
-    // microAjax(makeCartSourceURL(cart_name), function(retdata) { cartSourceById(cart_name, retdata)});
-    // So, this is setting the innerHTML of cartsrc_whatever-cart-name to the code found inside it.
-    // We need to log it out to the console
 
-    var cart_source_url = makeCartSourceURL(cart_name);
-    var cart_source_id = cartSourceById (cart_name);
-    // Log these
-    console.log(`Cart Source URL: https://lexaloffle.com/${cart_source_url}`);
-    console.log(`Cart Source ID: ${cart_source_id}`);
-    // Log the Cart Download
-    console.log(`Cart Download Link: ${cart_download_link}`);
+  // The target links for the cart/
+  var link_front = "https://www.lexaloffle.com/bbs/cposts/";
+  //var link_end = ".p8.png";
+  var link_end = findCartStorageChars();
+  // DEBUG: show link end result
+  console.log(link_end);
+
+  // If the first char in the string is a number, get the first number from the string.
+  // If the first char in the string is a letter, get the first 2 chars in the string.
+  // Create the variables needed to check these conditions.
+  var cart_chars, isnum;
+  var first_char = cart_name[0];
+  var nums = ['0','1','2','3','4','5','6','7','8','9'];
+
+  // Debug to see that the correct char is being read.
+  // console.log(first_char);
+
+  // Loop through the list of numerals to find out if the first char is a number.
+  for (var i = 0; i < nums.length; i++) {
+    if (first_char == nums[i]) {
+    isnum = true;
+      // Debug to make sure the loop is running.
+      // console.log("The first char is a number!");
+      break;
+    } else { isnum = false; }
+  }
+
+  // Explanation for the particular nature of these URLs, and this strange loop.
+
+  /* Explanation for the particular nature of these URLs, and this strange loop.
+    With the newest major update to the BBS, Lexaloffle gave users the ability to
+    give the carts that they publish custom names. These serve as the cart's ID, which
+    always must be a unique value. Prior to thsese changes, carts were all just given
+    a numerical id. This new flexibility likely called for a change in some part of the
+    BBS's backend, which used to subdivide carts by the first number in their ID, and
+    only incremented when all the ID's in that range had been exhausted. Since carts are
+    now able to contain alphabetical characters, this made the process more involoved.
+
+    Below this are 2 examples of cartridge links, the first being an older cart that had
+    an assigned number for its ID, and the second being a user-chosen ID containing both
+    alphabetical and numeric characters:
+
+    https://www.lexaloffle.com/...
+    .../bbs/cposts/3/34135.p8.png                          (OLD CART)
+    .../bbs/cposts/sp/spaz48_vvvvvvmoonfall_08-0.p8.png    (NEW CART)
 
 
-    // Not Workoing.
-    // Need print_pico8_cart_code?
-    // var cart_source_test = cartSourceLog(cart_name, cart_downnload_link);
-    // console.log(`Cart Source ID: ${cart_source_test}`);
-    // Module.onRuntimeInitialized = _V_ => {
-    //     const print_pico8_code = Module.cwrap('print_pico8_code', 'number', ['string','string']);
-    //     print_pico8_code("/bbs/cposts/va/vacayvolley_1_0-1.p8.png","output");
-    // };
-    start = false;
-    return;
+    See the url segment immediately following 'cposts'? Notice the numerical old cart
+    has a single character serving as a folder name in which the cart is stored;
+    in this case a '3'.
+
+    In opposition to this, the cart with a custom name is contained within a folder which
+    has 2 characters as a title; in this case, 'sp'.
+
+    Thus, depending on whether the cart has been given a custom identifier or not will
+    alter the storage destintation of the resulting p8.png file. Althought I'm not
+    certain if a cart with a custom name beginning with a numerical value would alter
+    the rules I've made, I think this code would cover it either way. Here's how it goes:
+
+    1.) Cart has no Custom Name/ID:
+    - Destination URL contains THE FIRST VALUE IN THE NUMERICAL ID!
+
+    2.) Cart has a Custom Name/ID:
+    - Destination URL contains THE FIRST TWO LETTERS OF THE CART'S ID!
+  */
+
+
+  cart_chars = isnum == false ? cart_name[0] + cart_name[1] : cart_name[0];
+
+  // Combine the properly obtained characters with the rest of the link text.
+  var link_mid = cart_chars + "/" + cart_name;
+
+  // Combine all 3 to make the link.
+  var cart_download_link = link_front + link_mid + link_end;
+
+  // Create the Download Link!
+  cartDownload(cart_name, cart_download_link);
+
+
+
+  // Getting Cart source infiormation tests.
+  // Uses the microAjax function.
+  // ie:
+  // microAjax(cart_source_url, function(retdata) {var el = document.getElementById("cartsrc_" + cart_name); el.innerHTML = retdata;             OR...
+  // microAjax(makeCartSourceURL(cart_name), function(retdata) { cartSourceById(cart_name, retdata)});
+  // So, this is setting the innerHTML of cartsrc_whatever-cart-name to the code found inside it.
+  // We need to log it out to the console
+
+  var cart_source_url = makeCartSourceURL(cart_name);
+  var cart_source_id = cartSourceById (cart_name);
+  // Log these
+  console.log(`Cart Source URL: https://lexaloffle.com/${cart_source_url}`);
+  console.log(`Cart Source ID: ${cart_source_id}`);
+  // Log the Cart Download
+  console.log(`Cart Download Link: ${cart_download_link}`);
+
+
+  // Not Workoing.
+  // Need print_pico8_cart_code?
+  // var cart_source_test = cartSourceLog(cart_name, cart_downnload_link);
+  // console.log(`Cart Source ID: ${cart_source_test}`);
+  // Module.onRuntimeInitialized = _V_ => {
+  //     const print_pico8_code = Module.cwrap('print_pico8_code', 'number', ['string','string']);
+  //     print_pico8_code("/bbs/cposts/va/vacayvolley_1_0-1.p8.png","output");
+  // };
+  start = false;
+  return;
 }
 
 // Runs when debugging.
 function dbgmain() {
   // Keep for now, TODO: FIX
   count++
-  if (count >= 2){console.log("Completed Loop."); return;}
+  if (count >=1){console.log("Completed Loop."); return;}
 
   // Call the function to store the cart number.
   var cart_number_hash = getCartNum();
@@ -236,18 +237,16 @@ function findCartStorageChars(){
   // Find the word "Cart", as it is right near the href ending we need
   // Subtract 1 to be in the href itself
   var index1 = dcode.search("Cart ")-1;
-  var index2 = index1 - 10;
+  var index2 = index1 - 9;
   // This produces the string ".p64.png" if its a PICOTRON
-  // It produces a different string, "#.p8.png", where '#' is some value
-  // representing the cart's current version.
-  // There fore, we can just strip out the first character if it isnt a '.'
+  // or .p8.png
   var unclear_ext = dcode.substring(index1, index2);
-  // SPlit out anything thats a word
+  // Split out anything thats a word
   var splits = unclear_ext.split(/\W/);
-  // Get the third one.
-  var extension = splits[2];
+  // Get the second  one.
+  var ext = splits[1];
   // Add '.' and '.png' to the result.
-  var r = '.' + extension + '.png';
+  var r = '.' + ext + '.png';
   return r;
 }
 
@@ -343,7 +342,7 @@ function cartDownload(cart_name, cart_download_link){
   return;
 }
 
-///@desc
+/*
 const log = function(...) {
   let s = "";
   for (var i=0; i < arguments.length; i++) {
@@ -357,7 +356,7 @@ const log = function(...) {
   // Return string.
   return s;
 }
-
+*/
 //================================================================\\
 //                      TODO SOURCE VIEWER                        ||
 //================================================================\\
