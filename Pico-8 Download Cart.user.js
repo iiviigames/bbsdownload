@@ -235,7 +235,7 @@ function findCartStorageChars(){
   var dcode = div.getInnerHTML();
   // Find the word "Cart", as it is right near the href ending we need
   // Subtract 1 to be in the href itself
-  var index1 = dcode.search("Cart")-1;
+  var index1 = dcode.search("Cart ")-1;
   var index2 = index1 - 10;
   // This produces the string ".p64.png" if its a PICOTRON
   // It produces a different string, "#.p8.png", where '#' is some value
@@ -249,14 +249,6 @@ function findCartStorageChars(){
   // Add '.' and '.png' to the result.
   var r = '.' + extension + '.png';
   return r;
-
-
-
-  // Combine all 3 to make the link.
-  var cart_download_link = link_front + link_mid + link_end;
-
-  // Create the Download Link!
-  cartDownload(cart_name, cart_download_link);
 }
 
 
