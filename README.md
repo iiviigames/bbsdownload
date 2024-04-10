@@ -3,17 +3,18 @@ The Pico-8 BBS Download Link-inator!
 
 :sleepy:
 
+
 <details>
-  <summary>Are you sick of tedious right-click, save-as routines?</summary>
+  <summary><h3>Are you sick of tedious right-click, save-as routines?</h3></summary>
   <p><blockquote>Well, <b>now they're a thing of the past!</b></blockquote></p>
 </details>
 
 
-<div align="normal">
+<div align="center">
   <img src="https://raw.githubusercontent.com/iiviigames/bbsdownload/master/img/cartDL.gif"
        alt="BBS Download Link"
        title="Usage of BBSDownload"
-       width="452px"
+       width="904px"
   />
 </div>
 
@@ -34,3 +35,9 @@ If you want to fix the code up, please do! It's ugly, and I tried to rig it so i
 **ENJOY!**
 
 _iivii_ :smile:
+
+***
+
+<div align="center">
+<img src="https://github.com/iiviigames/bbsdownload/assets/43127314/bec748af-e7b5-4723-b734-8e9b7411cadd">
+</div>
