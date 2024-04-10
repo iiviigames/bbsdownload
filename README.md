@@ -1,4 +1,4 @@
-The Pico-8 BBS Download Link-inator!
+The Pico-8 (and PICOTRON!) BBS Download Link-inator!
 =====================================
 
 :sleepy:
