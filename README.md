@@ -1,7 +1,20 @@
 The Pico-8 (and PICOTRON!) BBS Download Link-inator!
 =====================================
 
-:sleepy:
+> [!TIP]
+> 🕹️ Just a little quicker.
+> 👾 Just a little quiver.
+>
+
+
+## Click the Link Below To Install
+
+> [!WARNING]
+> Read on a little more If you haven't installed a user script manager.
+>
+
+**[CLICK HERE TO LOAD THE SCRIPT INTO YOUR BROWSER](https://raw.githubusercontent.com/iiviigames/bbsdownload/master/Pico-8%20Download%20Cart.user.js)**
+
 
 
 <details>
@@ -21,9 +34,15 @@ The Pico-8 (and PICOTRON!) BBS Download Link-inator!
 
 ## A Little Less Tedious
 
-This is a userscript written in `.js`, that adds a nice, big download link right under the cart player on the Pico-8 Bulletin Board System. Does literally what it says on the tin.
+This is a userscript written in `.js`, that adds a nice, big download link right under the cart player on the [Lexaloffle Bulletin Board System](https://lexaloffle.com/bbs), where many carts and pods await you. 
 
-To use this, you need something like [TamperMonkey](https://www.tampermonkey.net/) installed in your browser. (I'm using Firefox Developer ATM.)
+Rather than the constant saving of images, I've automated the process entirely, keeping up with zeps changes as he's made them.
+
+- **V0.6** - _Added Picotron support_
+
+To use this, you need something like [TamperMonkey](https://www.tampermonkey.net/) installed in your browser. (I'm using Firefox Developer ATM, but this is by far the best option on every browser. Whatever flavor of Chrome, FireFox, Opera, or AOL (okay, maybe I lied about AOL), it will work just fine. Just head over to your browsers addon store, and install from there.)
+
+- This is not possible on mobile, before anyone opens an issue. 😘
 
 Notes
 ------
